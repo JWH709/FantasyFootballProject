@@ -1,0 +1,33 @@
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    height: 90%;
+  }
+  
+  .input-container {
+    display: flex;
+    flex-direction: row;
+    height: 10%;
+    width: 60%;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    background-color: aliceblue;
+  }
+  
+  .text-field-container {
+    width: 75%;
+  }
+  
+  .text-field {
+    width: 100%;
+  }
+  
+  .send-button {
+    margin-left: 2%;
+    height: 60%;
+  }
+  
