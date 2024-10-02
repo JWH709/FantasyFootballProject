@@ -1,3 +1,4 @@
+/* Chat.tsx */
 .chat-container {
     display: flex;
     flex-direction: column;
@@ -17,17 +18,4 @@
     border-radius: 15px;
     background-color: aliceblue;
   }
-  
-  .text-field-container {
-    width: 75%;
-  }
-  
-  .text-field {
-    width: 100%;
-  }
-  
-  .send-button {
-    margin-left: 2%;
-    height: 60%;
-  }
-  
+/* ChatDisplay.tsx */  

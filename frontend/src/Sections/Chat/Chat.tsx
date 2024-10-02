@@ -30,6 +30,9 @@ const Chat = ({ messageHistory, setMessageHistory }: ChatProps) => {
           noValidate
           autoComplete="off"
           className="text-field-container"
+          style={{
+            width: "75%"
+          }}
         >
           <div>
             <TextField
@@ -40,6 +43,9 @@ const Chat = ({ messageHistory, setMessageHistory }: ChatProps) => {
               className="text-field"
               onChange={(e) => {
                 setTextValue(e.target.value);
+              }}
+              style={{
+                width: '100%'
               }}
             />
           </div>
@@ -53,6 +59,10 @@ const Chat = ({ messageHistory, setMessageHistory }: ChatProps) => {
               const newMessage = { message: textValue, sender: 'user', number: messageHistory.length + 1 };
               setMessageHistory(prev => [...prev, newMessage]);
             }
+          }}
+          style={{
+            marginLeft: '2%',
+            height: '60%'
           }}
         >
           Send

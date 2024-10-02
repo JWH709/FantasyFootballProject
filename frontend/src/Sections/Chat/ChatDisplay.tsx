@@ -24,7 +24,7 @@ return (
                     flexDirection: 'row', 
                     alignItems: i.sender === 'user' ? 'flex-start' : 'flex-end',
             }}>
-                <h2>{i.message}</h2>
+                <p className={"message_" + i.sender + "_text"}>{i.message}</p>
             </div>
         )
     })}</div>
