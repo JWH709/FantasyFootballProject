@@ -1,5 +1,6 @@
 import React from "react";
 import Chat from "./Sections/Chat/Chat";
+import AuthButton from "./Sections/Util/AuthButton";
 
 interface Message {
   message: string;
@@ -9,6 +10,7 @@ interface Message {
 
 function App() {
   const [messageHistory, setMessageHistory] = React.useState<Message[]>([]);
+  const [authStatus, setAuthStatus] = React.useState<boolean>(false)
 
   return (
     <div style={{
@@ -19,7 +21,12 @@ function App() {
       height: '100%',
       width: '100%',
     }}>
-      <Chat messageHistory={messageHistory} setMessageHistory={setMessageHistory} />
+      {authStatus && 
+        <Chat messageHistory={messageHistory} setMessageHistory={setMessageHistory} />
+      }
+      {!authStatus && 
+        <AuthButton setAuthStatus={setAuthStatus}/>
+      } 
     </div>
   );
 }
