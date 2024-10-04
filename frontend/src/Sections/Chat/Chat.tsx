@@ -20,6 +20,7 @@ interface Message {
 
 const Chat = ({ messageHistory, setMessageHistory }: ChatProps) => {
   const [textValue, setTextValue] = React.useState<string | null>(null);
+  const [returnedMessage, setReturnedMessage] = React.useState<null | string>(null)
 
   const makeGPTCall = React.useCallback(()=>{
     const callBackEnd = async ()=> {
@@ -28,20 +29,27 @@ const Chat = ({ messageHistory, setMessageHistory }: ChatProps) => {
         const response = await axios.get(endPoint)
         console.log(response)
         if(response.data.object == "chat.completion") {
-          const newMessage = { 
-            message: response.data.choices[0].message.content, 
-            sender: 'gpt', 
-            number: messageHistory.length + 2  //this is mega scuffed lol
-          }
-          setMessageHistory(prev => [...prev, newMessage])
+          setReturnedMessage(response.data.choices[0].message.content + Math.random())
         }
       } catch(error) {
         console.log(error)
       }
     }
     callBackEnd()
-  },[messageHistory, setMessageHistory])
+  },[setReturnedMessage])
 
+  React.useEffect(()=>{
+    if (returnedMessage != null) {
+      const newMessage = { 
+        message: returnedMessage, 
+        sender: 'gpt', 
+        number: messageHistory.length + 1 
+      };
+      setMessageHistory(prev => [...prev, newMessage]);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[returnedMessage, setMessageHistory])
+  
   console.log(messageHistory)
 
   return (
