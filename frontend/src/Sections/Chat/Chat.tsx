@@ -4,6 +4,7 @@ import SendIcon from '@mui/icons-material/Send';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import ChatDisplay from "./ChatDisplay";
+import axios from "axios";
 import '../../styles/chat.css'
 
 interface ChatProps {
@@ -19,6 +20,29 @@ interface Message {
 
 const Chat = ({ messageHistory, setMessageHistory }: ChatProps) => {
   const [textValue, setTextValue] = React.useState<string | null>(null);
+
+  const makeGPTCall = React.useCallback(()=>{
+    const callBackEnd = async ()=> {
+      const endPoint = 'http://localhost:5000/test/gpt'
+      try {
+        const response = await axios.get(endPoint)
+        console.log(response)
+        if(response.data.object == "chat.completion") {
+          const newMessage = { 
+            message: response.data.choices[0].message.content, 
+            sender: 'gpt', 
+            number: messageHistory.length + 2  //this is mega scuffed lol
+          }
+          setMessageHistory(prev => [...prev, newMessage])
+        }
+      } catch(error) {
+        console.log(error)
+      }
+    }
+    callBackEnd()
+  },[messageHistory, setMessageHistory])
+
+  console.log(messageHistory)
 
   return (
     <div className="chat-container">
@@ -58,6 +82,9 @@ const Chat = ({ messageHistory, setMessageHistory }: ChatProps) => {
             if (textValue != null) {
               const newMessage = { message: textValue, sender: 'user', number: messageHistory.length + 1 };
               setMessageHistory(prev => [...prev, newMessage]);
+              setTimeout(()=>{
+                makeGPTCall()
+              }, 2000)
             }
           }}
           style={{

@@ -19,3 +19,26 @@
     background-color: aliceblue;
   }
 /* ChatDisplay.tsx */  
+
+.message_gpt {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: end;
+  width: 100%;
+}
+
+.message_user {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  width: '100%'
+}
+
+.message_gpt_text {
+  margin-right: 2%;
+}
+.message_user_text {
+  margin-left: 2%;
+}
