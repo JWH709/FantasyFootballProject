@@ -11,9 +11,11 @@ interface ChatDisplayProps {
 const ChatDisplay = ({messageHistory}: ChatDisplayProps) => {    
 return (
     <div style={{
-        border: '2px, solid, red',
+        borderRadius: '15px',
         width: '60%',
-        height: '80%'
+        height: '80%',
+        marginBottom: '1%',
+        backgroundColor: 'aliceblue'
     }}>{messageHistory.map((i)=> {
         return(
             <div 
@@ -24,7 +26,9 @@ return (
                     flexDirection: 'row', 
                     alignItems: i.sender === 'user' ? 'flex-start' : 'flex-end',
             }}>
-                <p className={"message_" + i.sender + "_text"}>{i.message}</p>
+                <div className={'message_' + i.sender + '_text_wrapper'}>
+                    <p className={"message_" + i.sender + "_text"}>{i.message}</p>
+                </div>
             </div>
         )
     })}</div>
