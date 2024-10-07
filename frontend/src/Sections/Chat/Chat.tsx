@@ -23,20 +23,24 @@ const Chat = ({ messageHistory, setMessageHistory }: ChatProps) => {
   const [returnedMessage, setReturnedMessage] = React.useState<null | string>(null)
 
   const makeGPTCall = React.useCallback(()=>{
-    const callBackEnd = async ()=> {
-      const endPoint = 'http://localhost:5000/test/gpt'
+    const callBackEnd = async (userMessage: string)=> {
+      const endPoint = 'http://localhost:5000/chatGPT'
       try {
-        const response = await axios.get(endPoint)
+        const response = await axios.post(endPoint, {
+          message: userMessage
+        })
         console.log(response)
         if(response.data.object == "chat.completion") {
-          setReturnedMessage(response.data.choices[0].message.content + Math.random())
+          setReturnedMessage(response.data.choices[0].message.content)
         }
       } catch(error) {
         console.log(error)
       }
     }
-    callBackEnd()
-  },[setReturnedMessage])
+    if (textValue != null) {
+      callBackEnd(textValue)
+    }
+  },[setReturnedMessage, textValue])
 
   React.useEffect(()=>{
     if (returnedMessage != null) {
