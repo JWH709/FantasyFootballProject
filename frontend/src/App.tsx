@@ -1,4 +1,5 @@
 import React from "react";
+import { Routes, Route } from "react-router-dom";
 import Chat from "./Sections/Chat/Chat";
 import AuthButton from "./Sections/Util/AuthButton";
 
@@ -10,7 +11,6 @@ interface Message {
 
 function App() {
   const [messageHistory, setMessageHistory] = React.useState<Message[]>([]);
-  const [authStatus, setAuthStatus] = React.useState<boolean>(false)
 
   return (
     <div style={{
@@ -21,12 +21,10 @@ function App() {
       height: '100%',
       width: '100%',
     }}>
-      {authStatus && 
-        <Chat messageHistory={messageHistory} setMessageHistory={setMessageHistory} />
-      }
-      {!authStatus && 
-        <AuthButton setAuthStatus={setAuthStatus}/>
-      } 
+      <Routes>
+        <Route path="/" element={<AuthButton />} />
+        <Route path="/chat" element={<Chat messageHistory={messageHistory} setMessageHistory={setMessageHistory} />} />
+      </Routes>
     </div>
   );
 }
