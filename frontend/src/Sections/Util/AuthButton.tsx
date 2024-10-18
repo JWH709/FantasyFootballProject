@@ -1,48 +1,43 @@
-import axios from 'axios';
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const AuthButton = () => {
-    const navigate = useNavigate()
-    const [callStatus, setCallStatus] = React.useState<boolean>(false)
-    const [authStatus, setAuthStatus] = React.useState<boolean>(false)
+    const [isLoading, setIsLoading] = React.useState<boolean>(false)
 
-    React.useEffect(()=> {
-        if(callStatus) {
-            const callBackEnd = async () => {
-                const endPoint = 'http://localhost:5000/auth/yahoo'
+    const handleAuth = async () => {
 
-                try {
-                    const response = await axios.get(endPoint)
-                    const authUrl = response.data.authUrl
-                    window.open(authUrl, '_blank')
-                    setAuthStatus(true)                                     
-                } catch (error) {
-                    setAuthStatus(false)                   
-                    console.log(error)
-                }
-            }
-            callBackEnd()
+        try {
+            const authUrlResponse = await axios.get('http://localhost:5000/auth/yahoo');
+            const authUrl = authUrlResponse.data.authUrl;
+            window.open(authUrl, '_self');
+        } catch (error) {
+            console.error('Error during authentication:', error);
         }
-    },[callStatus, ])
-
-    React.useEffect(()=>{
-        if(authStatus) {
-            navigate('/chat')
-        }
-    },[navigate, authStatus])
+    };
 
     return (
         <>
-            <Box sx={{ '& button': { m: 1 } }}>
+            {isLoading && (
+                <Stack sx={{ color: 'grey.500' }} spacing={2} direction="row">
+                        <CircularProgress color="secondary" />
+                    </Stack>
+            )}
+            {!isLoading && (
+                <Box sx={{ '& button': { m: 1 } }}>
                 <Button size='large' onClick={()=> {
-                        setCallStatus(true)
-                        }}>Authorize With Yahoo</Button>
+                    handleAuth()
+                    setIsLoading(true)
+                }}>
+                    Authorize With Yahoo
+                </Button>
             </Box>
+            )}
         </>
-    )
-}
+    );
+};
 
-export default AuthButton
+export default AuthButton;
