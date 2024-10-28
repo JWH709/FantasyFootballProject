@@ -6,6 +6,7 @@ import TextField from '@mui/material/TextField';
 import ChatDisplay from "./ChatDisplay";
 import axios from "axios";
 import '../../styles/chat.css'
+import LeagueCards from "../Util/LeagueCards";
 
 interface ChatProps {
   messageHistory: Message[];
@@ -21,6 +22,7 @@ interface Message {
 const Chat = ({ messageHistory, setMessageHistory }: ChatProps) => {
   const [textValue, setTextValue] = React.useState<string | null>(null);
   const [returnedMessage, setReturnedMessage] = React.useState<null | string>(null)
+  const [selectedLeague, setSelectedLeague] = React.useState<null | string>(null)
 
   const makeGPTCall = React.useCallback(()=>{
     const callBackEnd = async (userMessage: string)=> {
@@ -53,11 +55,30 @@ const Chat = ({ messageHistory, setMessageHistory }: ChatProps) => {
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[returnedMessage, setMessageHistory])
-  
-  console.log(messageHistory)
+
+  React.useEffect(()=> {
+    if (selectedLeague) {
+      const getSelectedLeagueData = async (selectedLeague: string) => {
+        try {
+          const res = await axios.get('http://localhost:5000/leagues/data', {
+            params: {leagueKey: selectedLeague}
+          })
+
+          console.log(res)
+
+        } catch (error) {
+          console.error('Error getting league data: ', error)
+        }
+      }
+
+      getSelectedLeagueData(selectedLeague[0])
+    }
+  },[selectedLeague])
 
   return (
-    <div className="chat-container">
+    <>
+    {!selectedLeague && <LeagueCards setSelectedLeague={setSelectedLeague}/>}
+    {selectedLeague && <div className="chat-container">
       <ChatDisplay messageHistory={messageHistory} />
       <div className="input-container">
         <Box
@@ -107,7 +128,8 @@ const Chat = ({ messageHistory, setMessageHistory }: ChatProps) => {
           Send
         </Button>
       </div>
-    </div>
+    </div>}
+    </>
   );
 }
 
