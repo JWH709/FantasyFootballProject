@@ -33,7 +33,7 @@ const Chat = ({ messageHistory, setMessageHistory }: ChatProps) => {
         })
         console.log(response)
         if(response.data.object == "chat.completion") {
-          setReturnedMessage(response.data.choices[0].message.content)
+          setReturnedMessage(response.data.choices[0].message.content, )
         }
       } catch(error) {
         console.log(error)
@@ -64,7 +64,8 @@ const Chat = ({ messageHistory, setMessageHistory }: ChatProps) => {
             params: {leagueKey: selectedLeague}
           })
 
-          console.log(res)
+          const teamList = res
+          console.log(teamList)
 
         } catch (error) {
           console.error('Error getting league data: ', error)

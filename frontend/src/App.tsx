@@ -2,6 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Chat from "./Sections/Chat/Chat";
 import AuthButton from "./Sections/Util/AuthButton";
+import DataSelect from "./Sections/Data/DataSelect";
 
 interface Message {
   message: string;
@@ -24,6 +25,7 @@ function App() {
       <Routes>
         <Route path="/" element={<AuthButton />} />
         <Route path="/chat" element={<Chat messageHistory={messageHistory} setMessageHistory={setMessageHistory} />} />
+        <Route path='/data' element={<DataSelect />}/>
       </Routes>
     </div>
   );
